@@ -13,19 +13,33 @@ class HomePage extends Component {
   componentDidMount(){
     EmsAPI.fetchAilments()
       .then((apiResponseJSON) => {
+        console.log(apiResponseJSON)
         this.setState({
-          ailments: apiResponseJSON.ailments
+          ailments: apiResponseJSON
         })
       }
     )
   }
 
+  renderAilments() {
+    let renderedAilments = this.state.ailments.map((item, index) => {
+      return <div>
+        {item.name}
+      </div>
+    })
+    return renderedAilments
+  }
+
+
   render() {
-    const ailment = this.state.ailment
+    // const ailment = this.state.ailments
     return (
       <div>
-        <h2> Name </h2>
-        <p> {ailment['ailment_name']}</p>
+        <h2> Chief Complaints: </h2>
+      
+          { this.renderAilments() }
+
+        
       </div>
     )
   }

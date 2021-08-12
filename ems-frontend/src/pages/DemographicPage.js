@@ -1,18 +1,91 @@
-import React, { Component } from 'react'
+// import React, { Component } from 'react'
+
+// class DemographicPage extends Component {
+//   render() {
+//     return (
+//       <div>
+//         <h1> Demographic Page </h1>
+//       </div>
+//     )
+//   }
+// }
+
+// export default DemographicPage
+
+import { Component } from "react";
+import EmsAPI from '../api/EmsAPI'
 
 class DemographicPage extends Component {
+
+  state = {
+    demographic: null
+  }
+
+  // getDemographicbyId
+   // helper methods
+   async getDemographic() {
+    try {
+      let demographicId = this.props.match.params.demographicId
+      let demographicData = await EmsAPI.fetchDemographicByID(demographicId)
+      if (demographicData) {
+        this.setState({ demographic: demographicData })
+      }
+      console.log('this.state.demo: ', this.state.demographic)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+    // life cycle
+    componentDidMount() {
+      this.getDemographic()
+    }
+
+    // render
+    renderDemographic() {
+      if (!this.state.demographic) {
+        return <p>No demographic found!</p>
+      }
+  
+      console.log('age: ', this.state.demographic.age)
+      return (
+        <div>
+        
+          <h2>Age: {this.state.demographic.age}</h2>
+          <h2>Gender: {this.state.demographic.gender}</h2>
+          {/* <h2>Ailment: {this.state.demographic.ailment}</h2> */}
+          {/* <h2>ZIP Code: {this.state.demographic.zip}</h2> */}
+          <h3>Map goes here</h3>
+           {/* <iframe 
+          width="600"
+          height="450" 
+          style="border:0" 
+          loading="lazy" 
+          allowfullscreen
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ Chicago+IL }}">
+        </iframe> */}
+ 
+
+
+        </div>
+      )
+    }
+
+
+
   render() {
     return (
       <div>
-        <h1> Demographic Page </h1>
+        
+        <h1>Demographic Page: { this.props.match.params.demographicId }</h1>
+        { this.renderDemographic() }
       </div>
     )
   }
 }
 
-export default DemographicPage
-
-
+export default DemographicPage;
 
 
 

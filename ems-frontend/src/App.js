@@ -26,6 +26,9 @@ class App extends Component {
 export default App
 
 
+// https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ address }}
+
+
 
 // import './App.css';
 // import { Component } from 'react';

@@ -11,23 +11,133 @@ class AilmentPage extends Component {
   }
 
 
+  addDemographic = async () => {
+   
+      try {
+        let inputAge = document.getElementById("new-age")
+        let inputGender = document.getElementById("new-gender")
+        let inputAilment = document.getElementById("new-ailment")
+        let inputZip = document.getElementById("new-zip")
+     
+        if (inputAge && inputGender && inputAilment && inputZip) {
+          let newDemographicParams = {
+            list: this.state.ailment.id,
+            age: inputAge.value,
+            gender: inputGender.value,
+            ailment: inputAilment.value,
+            zip: inputZip.value
+          }
+          let data = await EmsAPI.createDemographic(newDemographicParams)
+          if (data) {
+            this.getAilment()
+          }
+        }
+      }
+      catch {
+
+      }
+    }
+
+
+   async getAilment() {
+    const id = this.props.match.params.ailmentId
+
+    // console.log("get ailment: ", this.props.match.params.ailmentId)
+    // console.log("loading ailment id: ", id)
+
+
+    let response = await EmsAPI.fetchAilmentByID(id)
+    // console.log('response: ', response)
+
+    this.setState({
+      ailment: response
+      
+    })
+
+    // console.log('ailment: ', this.state.ailment)
+  //     .then((ailment) => this.setState({
+  //       ailment: ailment
+  //   }))
+   }
+
 
   componentDidMount() {
-    const id = this.props.match.params.ailmentID
-    EmsAPI.fetchAilmentByID(id)
-      .then((ailment) => this.setState({
-        ailment: ailment
-    }))
+    this.getAilment()
   }
 
+
+  renderDemographics() {
+         let demographicElements = this.state.ailment.demographics.map((demographic, index) => {
+          
+          console.log('render demos: ', this.props.match.params.ailmentId)
+           return (
+             <li key={`demographic-${index}`}>
+               <Link to={`/ailments/${this.props.match.params.ailmentId}/demographics/${demographic.id}`}>ZIP Code {demographic.zip}</Link>
+             </li>
+           )
+           // pulled out from above /ailments/
+          //  this.state.ailment.id
+         })
+      
+    // console.log("Dem Elements: ", demographicElements)
+         
+        return (
+          <ul className="simple-list">
+            { demographicElements }
+          </ul>
+        )
+      }
+
+  renderAilment()  {
+
+    // console.log('Ailment in render(): ', this.state.ailment)
+
+     if (!this.state.ailment) {
+       return <p>No ailment found!</p>
+     }
+     
+     return (
+             <div>
+               <h1>{this.state.ailment.name}</h1>
+               
+             
+               { this.renderDemographics() }
+               <hr />
+               <input id="new-age" placeholder="age"/>
+               <input id="new-gender" placeholder="gender"/>
+               <input id="new-ailment" placeholder="ailment"/>
+               <input id="new-zip" placeholder="zip"/>
+               <button onClick={this.addDemographic}>Add Demographic</button>
+             </div>
+           )
+          
+         }
+
+
   render() {
+    
     return (
       <div>
-        <h1> Ailment Page </h1>
+        {/* <h1> Ailment Page </h1>
+        <h2> Name </h2> */}
+      
+        <h1>Chief Complaint: </h1>
+        <h4>{ this.renderAilment() }</h4>
+        {/* <iframe 
+          width="600"
+          height="450" 
+          style="border:0" 
+          loading="lazy" 
+          allowfullscreen
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ demographic.zip }}">
+        </iframe> */}
+    
+        {/* { this.props.match.params.ailmentId } */}
       </div>
     )
   }
 }
+
 
 export default AilmentPage
 
