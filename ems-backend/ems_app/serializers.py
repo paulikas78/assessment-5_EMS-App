@@ -4,7 +4,7 @@ from ems_app.models import *
 class AilmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ailment
-        fields = ['name', 'demographics']
+        fields = ['id', 'name', 'demographics']
         depth = 1
 
 class DemographicSerializer(serializers.ModelSerializer):
