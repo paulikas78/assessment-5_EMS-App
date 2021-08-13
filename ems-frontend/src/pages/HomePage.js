@@ -21,29 +21,145 @@ class HomePage extends Component {
     )
   }
 
+
+
+        addAilment = async () => {
+          let input = document.getElementById("new-ailment")
+          if (input) {
+            let newAilmentParam = {
+              name: input.value
+            }
+            let data = await EmsAPI.addAilment(newAilmentParam)
+
+            // console.log("new ailment: ", data)
+
+             if (data) {
+                let newAilments = [...this.state.ailments, data]
+                this.setState({ailments: newAilments})
+            }
+          }
+        }
+
+
+
+        deleteAilment = async (ailmentId) => {
+            try {
+              if (ailmentId > 0) {
+                let result = await EmsAPI.deleteAilment(ailmentId)
+                if (result.success) {
+                  let newAilments = this.state.ailments.filter((ailment, index) => {
+                    return ailment.id !== ailmentId
+                  })
+                  this.setState({ailments: newAilments})
+                }
+              }
+            }
+          catch {
+                  
+          }
+        }
+
+
   renderAilments() {
-    let renderedAilments = this.state.ailments.map((item, index) => {
-      return <div>
-        {item.name}
-      </div>
+    let renderedAilments = this.state.ailments.map((ailment, index) => {
+      // return 
+      // <div>
+      //   {item.name}
+      // </div>
+
+         return ( 
+         <li key={`ailment-${index}`}>
+         <Link to={`/ailments/${this.props.match.params.ailmentId}`}></Link>
+
+          
+           <AilmentSummary ailment={ailment} handleDelete={this.deleteAilment}/>
+         </li>
+       )
+
+
     })
-    return renderedAilments
+    // return renderedAilments
+    return (
+       <div>
+            <h2>Chief Complaints:</h2>
+              <ul className="simple-list">
+                { renderedAilments }
+
+              </ul>
+            <hr />
+            <input id="new-ailment" placeholder="Chief Complaint"/>
+            <button onClick={this.addAilment}>Add New Chief Complaint</button>
+        </div>
+
+
+    )
   }
+
+  //  renderWelcome() {
+//      if (!this.context) {
+//        return <Link to="/login"><button>Login</button></Link>
+//      }
+
+//      let taskListElements = this.state.taskLists.map((taskList, index) => {
+      //  return ( 
+      //    <li key={`task-list-${index}`}>
+      //      <TaskListSummary taskList={taskList} handleDelete={this.deleteTaskList}/>
+      //    </li>
+      //  )
+//      })
+
+//      return (
+//        <div>
+//          <h2>Welcome to your Task List Manager App {this.context.user.username}!</h2>
+//          <h2>Your task lists:</h2>
+//          <ul className="simple-list">
+//            { taskListElements }
+//          </ul>
+//          <hr />
+//          <input id="new-task-list-name" placeholder="new task list"/>
+//          <button onClick={this.createTaskList}>Create New Task List</button>
+//        </div>
+//      )
+//    }
+
+
+
 
 
   render() {
     // const ailment = this.state.ailments
     return (
       <div>
-        <h2> Chief Complaints: </h2>
+  
       
           { this.renderAilments() }
+         
+
+          <iframe src="https://covid-19.dataflowkit.com/assets/widget/covid-19.html" 
+            frameborder="0" scrolling="no"
+            width="250" height="250">
+          </iframe>
 
         
       </div>
     )
   }
 }
+
+
+
+//    render() {
+//      return (
+//        <div>
+//          <h1>Home Page</h1>
+//          { this.renderWelcome() }
+//        </div>
+//      )
+//    }
+//  }
+
+
+
 
 export default HomePage
 

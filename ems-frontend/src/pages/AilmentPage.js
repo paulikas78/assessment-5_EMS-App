@@ -16,15 +16,15 @@ class AilmentPage extends Component {
       try {
         let inputAge = document.getElementById("new-age")
         let inputGender = document.getElementById("new-gender")
-        let inputAilment = document.getElementById("new-ailment")
+        // let inputAilment = document.getElementById("new-ailment")
         let inputZip = document.getElementById("new-zip")
      
-        if (inputAge && inputGender && inputAilment && inputZip) {
+        if (inputAge && inputGender && inputZip) {
           let newDemographicParams = {
             list: this.state.ailment.id,
             age: inputAge.value,
             gender: inputGender.value,
-            ailment: inputAilment.value,
+            // ailment: inputAilment.value,
             zip: inputZip.value
           }
           let data = await EmsAPI.createDemographic(newDemographicParams)
@@ -69,7 +69,9 @@ class AilmentPage extends Component {
   renderDemographics() {
          let demographicElements = this.state.ailment.demographics.map((demographic, index) => {
           
-          console.log('render demos: ', this.props.match.params.ailmentId)
+          // console.log('render demos: ', this.props.match.params.ailmentId)
+
+          
            return (
              <li key={`demographic-${index}`}>
                <Link to={`/ailments/${this.props.match.params.ailmentId}/demographics/${demographic.id}`}>ZIP Code {demographic.zip}</Link>
@@ -105,7 +107,7 @@ class AilmentPage extends Component {
                <hr />
                <input id="new-age" placeholder="age"/>
                <input id="new-gender" placeholder="gender"/>
-               <input id="new-ailment" placeholder="ailment"/>
+               {/* <input id="new-ailment" placeholder="ailment"/> */}
                <input id="new-zip" placeholder="zip"/>
                <button onClick={this.addDemographic}>Add Demographic</button>
              </div>

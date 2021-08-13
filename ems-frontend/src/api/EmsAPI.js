@@ -20,10 +20,100 @@ const fetchDemographicByID = (demographicID) => {
     .then((response) => response.json())
 }
 
+
+const addAilment = (ailmentObject) => {
+  return fetch(`${BASE_URL}api/ailments/`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(ailmentObject)
+  })
+}
+
+const deleteAilment = (ailmentID) => {
+  return fetch(`${BASE_URL}api/ailments/${ailmentID}/`, {
+    method: 'DELETE'
+  })
+}
+
+const addDemographic = (demographicObject) => {
+  return fetch(`${BASE_URL}api/demographics/`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(demographicObject)
+  })
+}
+
+const updateDemographic = (demographicID, demographicParams) => {
+  return fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT',
+    body: JSON.stringify(demographicParams)
+  })
+}
+
+const deleteDemographic = (demographicID) => {
+  return fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
+    method: 'DELETE'
+  })
+}
+
+// const createTaskList = async (newTaskListParams, token) => {
+//   let url = `${BASE_URL}api/task-lists/`
+//   let init = getTokenInit(token)
+//   init["method"] = "POST"
+//   init["body"] = JSON.stringify(newTaskListParams)
+//   return await tryCatchFetch(url, init)
+// }
+
+
+// const deleteTaskList = async (taskListId, token) => {
+//   let url = `${BASE_URL}api/task-lists/${taskListId}/`
+//   let init = getTokenInit(token)
+//   init["method"] = "DELETE"
+//   return await tryCatchFetch(url, init)
+// }
+
+// const createTask = async(newTaskParams, token) => {
+//   let url = `${BASE_URL}api/tasks/`
+//   let init = getTokenInit(token)
+//   init["method"] = "POST"
+//   init["body"] = JSON.stringify(newTaskParams)
+//   return await tryCatchFetch(url, init)
+// }
+
+// const updateTask = async(taskId, updatedTaskParams, token) => {
+//   let url = `${BASE_URL}api/tasks/${taskId}/`
+//   let init = getTokenInit(token)
+//   init["method"] = "PUT"
+//   init["body"] = JSON.stringify(updatedTaskParams)
+//   return await tryCatchFetch(url, init)
+// }
+
+// const deleteTask = async (taskId, token) => {
+//   let url = `${BASE_URL}api/tasks/${taskId}/`
+//   let init = getTokenInit(token)
+//   init["method"] = "DELETE"
+//   return await tryCatchFetch(url, init)
+// }
+
+
+
+
 const myExport = {
   fetchAilmentByID,
   fetchAilments,
-  fetchDemographicByID
+  fetchDemographicByID,
+  addAilment,
+  deleteAilment,
+  addDemographic,
+  updateDemographic,
+  deleteDemographic
 }
 
 export default myExport

@@ -30,7 +30,7 @@ class DemographicPage extends Component {
       if (demographicData) {
         this.setState({ demographic: demographicData })
       }
-      console.log('this.state.demo: ', this.state.demographic)
+      // console.log('this.state.demo: ', this.state.demographic)
     }
     catch (error) {
       console.log(error)
@@ -48,7 +48,7 @@ class DemographicPage extends Component {
         return <p>No demographic found!</p>
       }
   
-      console.log('age: ', this.state.demographic.age)
+      // console.log('age: ', this.state.demographic.age)
       return (
         <div>
         
@@ -57,14 +57,14 @@ class DemographicPage extends Component {
           {/* <h2>Ailment: {this.state.demographic.ailment}</h2> */}
           {/* <h2>ZIP Code: {this.state.demographic.zip}</h2> */}
           <h3>Map goes here</h3>
-           {/* <iframe 
-          width="600"
-          height="450" 
-          style="border:0" 
-          loading="lazy" 
-          allowfullscreen
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ Chicago+IL }}">
-        </iframe> */}
+          <iframe 
+            width="600"
+            height="450" 
+            style={{ "border":"0 0 0 0" }}
+            loading="lazy" 
+            allowfullscreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q=10300+S+Western+Chicago+IL/7200+S+Western+Chicago+IL">
+          </iframe>
  
 
 
