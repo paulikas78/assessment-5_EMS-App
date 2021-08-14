@@ -16,18 +16,19 @@ class AilmentPage extends Component {
       try {
         let inputAge = document.getElementById("new-age")
         let inputGender = document.getElementById("new-gender")
-        // let inputAilment = document.getElementById("new-ailment")
+        //let inputAilment = document.getElementById("new-ailment")
         let inputZip = document.getElementById("new-zip")
      
         if (inputAge && inputGender && inputZip) {
           let newDemographicParams = {
-            list: this.state.ailment.id,
+            list: [this.state.ailment.id, this.state.ailment.name],
             age: inputAge.value,
             gender: inputGender.value,
-            // ailment: inputAilment.value,
+            //ailment: inputAilment.value,
             zip: inputZip.value
           }
-          let data = await EmsAPI.createDemographic(newDemographicParams)
+          console.log(newDemographicParams)
+          let data = await EmsAPI.addDemographic(newDemographicParams)
           if (data) {
             this.getAilment()
           }
@@ -110,6 +111,16 @@ class AilmentPage extends Component {
                {/* <input id="new-ailment" placeholder="ailment"/> */}
                <input id="new-zip" placeholder="zip"/>
                <button onClick={this.addDemographic}>Add Demographic</button>
+
+               {/* <iframe 
+            width="600"
+            height="450" 
+            style={{ "border":"0 0 0 0" }}
+            loading="lazy" 
+            allowfullscreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{demographic.zip}}">
+          </iframe> */}
+ 
              </div>
            )
           

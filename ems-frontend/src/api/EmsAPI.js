@@ -2,53 +2,85 @@ const BASE_URL = "http://localhost:8000/"
 
 
 
-const fetchAilmentByID = (ailmentID) => {
+const tryCatchFetch = async (url) => {
+  try {
+    let response = await fetch(url)
+    if (response.ok) {
+      console.log("status", response.status)
+      if (response.status !== 204) { // 204 doesn't have a message body
+        let data = await response.json()
+        return data
+      }
+      else {
+        return { "success": true }
+      }
+    }
+  }
+  catch (error) {
+    console.error(":ERR:",error)
+    return null
+  }
+}
+
+
+
+
+const fetchAilmentByID = async (ailmentID) => {
   let url = `${BASE_URL}api/ailments/${ailmentID}/`
-  return fetch(url)
+  return await fetch(url)
     .then((response) => response.json())
 }
 
-const fetchAilments = () => {
+const fetchAilments = async () => {
   let url = `${BASE_URL}api/ailments/`
-  return fetch(url)
+  return await fetch(url)
     .then((response) => response.json())
 }
 
-const fetchDemographicByID = (demographicID) => {
+const fetchDemographicByID = async (demographicID) => {
   let url = `${BASE_URL}api/demographics/${demographicID}/`
-  return fetch(url)
+  return await fetch(url)
     .then((response) => response.json())
 }
 
 
-const addAilment = (ailmentObject) => {
-  return fetch(`${BASE_URL}api/ailments/`, {
+
+// const createTaskList = async (newTaskListParams) => {
+//   let url = `${BASE_URL}api/task-lists/`
+//   let init = getTokenInit(token)
+//   init["method"] = "POST"
+//   init["body"] = JSON.stringify(newTaskListParams)
+//   return await tryCatchFetch(url, init)
+// }
+
+const addAilment = async (ailmentObject) => {
+  return await fetch(`${BASE_URL}api/ailments/`, {
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'POST',
     body: JSON.stringify(ailmentObject)
-  })
+  }).then((response) => response.json())
 }
 
-const deleteAilment = (ailmentID) => {
-  return fetch(`${BASE_URL}api/ailments/${ailmentID}/`, {
+const deleteAilment = async (ailmentID) => {
+  return await fetch(`${BASE_URL}api/ailments/${ailmentID}/`, {
     method: 'DELETE'
-  })
+  }).then((response) => response.json())
 }
 
-const addDemographic = (demographicObject) => {
-  return fetch(`${BASE_URL}api/demographics/`, {
+const addDemographic = async (demographicObject) => {
+  return await fetch(`${BASE_URL}api/demographics/`, {
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'POST',
     body: JSON.stringify(demographicObject)
-  })
+  }).then((response) => response.json())
 }
 
-const updateDemographic = (demographicID, demographicParams) => {
-  return fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
+const updateDemographic = async (demographicID, demographicParams) => {
+  return await fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
     headers: {
       'Content-Type': 'application/json'
     },
@@ -57,8 +89,8 @@ const updateDemographic = (demographicID, demographicParams) => {
   })
 }
 
-const deleteDemographic = (demographicID) => {
-  return fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
+const deleteDemographic = async (demographicID) => {
+  return await fetch(`${BASE_URL}api/demographics/${demographicID}/`, {
     method: 'DELETE'
   })
 }

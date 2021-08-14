@@ -10,6 +10,9 @@ class HomePage extends Component {
     ailments: []
   }
 
+
+
+
   componentDidMount(){
     EmsAPI.fetchAilments()
       .then((apiResponseJSON) => {
@@ -28,29 +31,54 @@ class HomePage extends Component {
           if (input) {
             let newAilmentParam = {
               name: input.value
+              
             }
             let data = await EmsAPI.addAilment(newAilmentParam)
 
-            // console.log("new ailment: ", data)
+            console.log("API response: ", data)
 
              if (data) {
                 let newAilments = [...this.state.ailments, data]
                 this.setState({ailments: newAilments})
+                console.log(this.state)
             }
           }
         }
 
 
+        //    deleteTaskList = async (taskListId) => {
+//      try {
+//        let token = this.context
+//          ? this.context.token
+//          : null
+//        if (taskListId > 0 && token) {
+//          let result = await toDoAPI.deleteTaskList(taskListId, token)
+//          if (result.success) {
+//            let newTaskLists = this.state.taskLists.filter((taskList, index) => {
+//              return taskList.id !== taskListId
+//            })
+//            this.setState({taskLists: newTaskLists})
+//          }
+//        }
+//      }
+//      catch {
+
+//      }
+//    }
+      
 
         deleteAilment = async (ailmentId) => {
             try {
               if (ailmentId > 0) {
                 let result = await EmsAPI.deleteAilment(ailmentId)
+
                 if (result.success) {
                   let newAilments = this.state.ailments.filter((ailment, index) => {
                     return ailment.id !== ailmentId
                   })
+
                   this.setState({ailments: newAilments})
+                  console.log(this.state)
                 }
               }
             }

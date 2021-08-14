@@ -3,7 +3,8 @@ import { Table } from 'react-bootstrap'
 import { Link } from "react-router-dom"
 
 class AilmentSummary extends Component {
-
+  componentDidMount() {}
+  
    render() {
      return (
 
