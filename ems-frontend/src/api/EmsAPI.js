@@ -66,7 +66,7 @@ const addAilment = async (ailmentObject) => {
 const deleteAilment = async (ailmentID) => {
   return await fetch(`${BASE_URL}api/ailments/${ailmentID}/`, {
     method: 'DELETE'
-  }).then((response) => response.json())
+  }).then(() => {return {'success': true}})
 }
 
 const addDemographic = async (demographicObject) => {

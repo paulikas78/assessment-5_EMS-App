@@ -16,7 +16,7 @@ class AilmentPage extends Component {
       try {
         let inputAge = document.getElementById("new-age")
         let inputGender = document.getElementById("new-gender")
-        //let inputAilment = document.getElementById("new-ailment")
+        let inputAilment = document.getElementById("new-ailment")
         let inputZip = document.getElementById("new-zip")
      
         if (inputAge && inputGender && inputZip) {
@@ -24,7 +24,7 @@ class AilmentPage extends Component {
             list: [this.state.ailment.id, this.state.ailment.name],
             age: inputAge.value,
             gender: inputGender.value,
-            //ailment: inputAilment.value,
+            ailment: inputAilment.value,
             zip: inputZip.value
           }
           console.log(newDemographicParams)
@@ -48,7 +48,7 @@ class AilmentPage extends Component {
 
 
     let response = await EmsAPI.fetchAilmentByID(id)
-    // console.log('response: ', response)
+    console.log('response: ', response)
 
     this.setState({
       ailment: response
@@ -108,7 +108,7 @@ class AilmentPage extends Component {
                <hr />
                <input id="new-age" placeholder="age"/>
                <input id="new-gender" placeholder="gender"/>
-               {/* <input id="new-ailment" placeholder="ailment"/> */}
+               <input id="new-ailment" placeholder="ailment"/>
                <input id="new-zip" placeholder="zip"/>
                <button onClick={this.addDemographic}>Add Demographic</button>
 

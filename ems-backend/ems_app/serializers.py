@@ -10,8 +10,9 @@ class AilmentSerializer(serializers.ModelSerializer):
 class DemographicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demographic
-        fields = ['age', 'gender', 'ailment', 'zip']
-        depth = 1
+        fields = ['age', 'gender', 'ailment', 'zip']     
+    ailment = serializers.PrimaryKeyRelatedField(queryset=Ailment.objects.all())
+    
 
 
 

@@ -72,6 +72,8 @@ class HomePage extends Component {
               if (ailmentId > 0) {
                 let result = await EmsAPI.deleteAilment(ailmentId)
 
+                console.log(result)
+
                 if (result.success) {
                   let newAilments = this.state.ailments.filter((ailment, index) => {
                     return ailment.id !== ailmentId
@@ -83,6 +85,7 @@ class HomePage extends Component {
               }
             }
           catch {
+            console.log('delete ailment catch')
                   
           }
         }
@@ -90,11 +93,6 @@ class HomePage extends Component {
 
   renderAilments() {
     let renderedAilments = this.state.ailments.map((ailment, index) => {
-      // return 
-      // <div>
-      //   {item.name}
-      // </div>
-
          return ( 
          <li key={`ailment-${index}`}>
          <Link to={`/ailments/${this.props.match.params.ailmentId}`}></Link>
