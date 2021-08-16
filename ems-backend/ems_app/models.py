@@ -13,7 +13,6 @@ class Demographic(models.Model):
     age = models.CharField(max_length=3)
     gender = models.CharField(max_length=1)
     ailment = models.ForeignKey(Ailment, on_delete=models.CASCADE, related_name='demographics')
-    # add-on
     zip = models.CharField(max_length=5)
     
     def __str__(self):

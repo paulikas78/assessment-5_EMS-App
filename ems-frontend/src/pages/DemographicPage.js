@@ -1,25 +1,30 @@
-// import React, { Component } from 'react'
-
-// class DemographicPage extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <h1> Demographic Page </h1>
-//       </div>
-//     )
-//   }
-// }
-
-// export default DemographicPage
-
 import { Component } from "react";
 import EmsAPI from '../api/EmsAPI'
 
 class DemographicPage extends Component {
 
-  state = {
-    demographic: null
+  // state = {
+  //   demographic: null
+  // }
+
+
+  static MODE_TYPE = {
+    VIEW: 1,
+    UPDATE: 2,
   }
+
+  state = {
+    demographic: null,
+    mode: DemographicPage.MODE_TYPE.VIEW
+  }
+
+
+
+  changeMode = (newMode) => {
+    this.setState({mode: newMode})
+  }
+
+
 
   // getDemographicbyId
    // helper methods
@@ -37,6 +42,57 @@ class DemographicPage extends Component {
     }
   }
 
+
+
+  updateDemographic = async () => {
+    try {
+      let inputAge = document.getElementById("demographic-age")
+      let inputGender = document.getElementById("demographic-gender")
+  
+      let demographicId = this.state.demographic.id
+    
+      if (inputAge && inputGender && demographicId > 0) {
+        let updatedDemographic = {
+          // list: this.state.demographic.list,
+          id: this.state.ailment.demographic,
+          age: inputAge.value,
+          gender: inputGender.value
+        }
+
+        let data = await EmsAPI.updateDemographic(demographicId, updatedDemographic)
+        if (data) {
+          this.setState({demographic: data})
+          this.changeMode(DemographicPage.MODE_TYPE.VIEW)
+        }
+      }     
+    }
+    catch {
+      console.eror("update demographic error")
+
+    }
+
+  }
+
+  deleteDemographic = async () => {
+    try {
+      // let ailmentId = this.state.demographic.list
+      let ailmentId = this.state.ailment.demographic
+      let demographicId = this.state.demographic.id
+     
+      if (demographicId > 0) {
+        let result = await EmsAPI.deleteDemographic(demographicId)
+        if (result.success) {
+          this.props.history.push(`/ailments/${ailmentId}/`)
+        }
+      }
+    }
+    catch {
+      console.error("delete demographic error")
+    }
+  }
+
+
+
     // life cycle
     componentDidMount() {
       this.getDemographic()
@@ -47,6 +103,24 @@ class DemographicPage extends Component {
       if (!this.state.demographic) {
         return <p>No demographic found!</p>
       }
+
+      if (this.state.mode === DemographicPage.MODE_TYPE.UPDATE) {
+        return (
+          <div>
+            <div>
+              <h3 className="nonbreak">Age: </h3>
+              <input id="demographic-age" placeholder="age" defaultValue={this.state.demographic.age}/>
+            </div>
+            <div>
+              <h3 className="nonbreak">Gender: </h3>
+              <input id="demographic-gender" placeholder="gender" defaultValue={this.state.demographic.gender}/>
+            </div>
+            <br />
+            <button onClick={this.updateDemographic}>Save</button>
+            <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.VIEW)}>Cancel</button>
+          </div>
+        )
+      }
   
       // console.log('age: ', this.state.demographic.age)
       return (
@@ -56,14 +130,7 @@ class DemographicPage extends Component {
           <h2>Gender: {this.state.demographic.gender}</h2>
           {/* <h2>Ailment: {this.state.demographic.ailment}</h2> */}
           {/* <h2>ZIP Code: {this.state.demographic.zip}</h2> */}
-          <iframe 
-            width="600"
-            height="450" 
-            style={{ "border":"0 0 0 0" }}
-            loading="lazy" 
-            allowfullscreen
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ this.state.demographic.zip }}">
-          </iframe>
+      
  
 
 
@@ -74,11 +141,30 @@ class DemographicPage extends Component {
 
 
   render() {
+    
+   
+
     return (
+      
       <div>
         
         <h1>Demographic Page: { this.props.match.params.demographicId }</h1>
         { this.renderDemographic() }
+       
+         <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.UPDATE)}>Update</button>
+         <button onClick={this.deleteDemographic}>Delete</button>
+
+        
+
+         <hr />
+         <iframe 
+            width="600"
+            height="450" 
+            style={{ "border":"0 0 0 0" }}
+            loading="lazy" 
+            allowfullscreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ 60643 }}">
+          </iframe>
       </div>
     )
   }
