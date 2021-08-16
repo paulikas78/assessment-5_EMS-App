@@ -3,11 +3,6 @@ import EmsAPI from '../api/EmsAPI'
 
 class DemographicPage extends Component {
 
-  // state = {
-  //   demographic: null
-  // }
-
-
   static MODE_TYPE = {
     VIEW: 1,
     UPDATE: 2,
@@ -19,7 +14,6 @@ class DemographicPage extends Component {
   }
 
 
-
   changeMode = (newMode) => {
     this.setState({mode: newMode})
   }
@@ -28,6 +22,7 @@ class DemographicPage extends Component {
 
   // getDemographicbyId
    // helper methods
+
    async getDemographic() {
     try {
       let demographicId = this.props.match.params.demographicId
@@ -35,7 +30,6 @@ class DemographicPage extends Component {
       if (demographicData) {
         this.setState({ demographic: demographicData })
       }
-      // console.log('this.state.demo: ', this.state.demographic)
     }
     catch (error) {
       console.log(error)
@@ -48,15 +42,15 @@ class DemographicPage extends Component {
     try {
       let inputAge = document.getElementById("demographic-age")
       let inputGender = document.getElementById("demographic-gender")
-  
-      let demographicId = this.state.demographic.id
+      let inputZip = document.getElementById("new-zip")
+      let demographicId = this.props.match.params.demographicId
     
-      if (inputAge && inputGender && demographicId > 0) {
+      if (inputAge && inputGender && inputZip && demographicId > 0) {
         let updatedDemographic = {
-          // list: this.state.demographic.list,
-          id: this.state.ailment.demographic,
+          ailment: this.props.match.params.ailmentId,
           age: inputAge.value,
-          gender: inputGender.value
+          gender: inputGender.value,
+          zip: inputZip.value
         }
 
         let data = await EmsAPI.updateDemographic(demographicId, updatedDemographic)
@@ -73,12 +67,14 @@ class DemographicPage extends Component {
 
   }
 
+
   deleteDemographic = async () => {
+    
     try {
-      // let ailmentId = this.state.demographic.list
-      let ailmentId = this.state.ailment.demographic
-      let demographicId = this.state.demographic.id
      
+      let ailmentId = this.props.match.params.ailmentId
+      let demographicId = this.props.match.params.demographicId
+      
       if (demographicId > 0) {
         let result = await EmsAPI.deleteDemographic(demographicId)
         if (result.success) {
@@ -92,11 +88,11 @@ class DemographicPage extends Component {
   }
 
 
-
     // life cycle
     componentDidMount() {
       this.getDemographic()
     }
+
 
     // render
     renderDemographic() {
@@ -115,6 +111,10 @@ class DemographicPage extends Component {
               <h3 className="nonbreak">Gender: </h3>
               <input id="demographic-gender" placeholder="gender" defaultValue={this.state.demographic.gender}/>
             </div>
+            <div>
+              <h3 className="nonbreak">ZIP Code: </h3>
+              <input id="new-zip" placeholder="zip" defaultValue={this.state.demographic.zip}/>
+            </div>
             <br />
             <button onClick={this.updateDemographic}>Save</button>
             <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.VIEW)}>Cancel</button>
@@ -122,18 +122,13 @@ class DemographicPage extends Component {
         )
       }
   
-      // console.log('age: ', this.state.demographic.age)
+      
       return (
         <div>
         
           <h2>Age: {this.state.demographic.age}</h2>
           <h2>Gender: {this.state.demographic.gender}</h2>
-          {/* <h2>Ailment: {this.state.demographic.ailment}</h2> */}
-          {/* <h2>ZIP Code: {this.state.demographic.zip}</h2> */}
-      
- 
-
-
+     
         </div>
       )
     }
@@ -148,7 +143,8 @@ class DemographicPage extends Component {
       
       <div>
         
-        <h1>Demographic Page: { this.props.match.params.demographicId }</h1>
+        <h1>Demographic of Patient { this.props.match.params.demographicId }</h1>
+        {/* { this.props.match.params.demographicId } */}
         { this.renderDemographic() }
        
          <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.UPDATE)}>Update</button>
