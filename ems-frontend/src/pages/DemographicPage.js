@@ -125,20 +125,24 @@ class DemographicPage extends Component {
       
       return (
         <div>
+          <h1>Demographic of Patient in ZIP Code: { this.state.demographic.zip }</h1>
         
           <h2>Age: {this.state.demographic.age}</h2>
           <h2>Gender: {this.state.demographic.gender}</h2>
-          <h2>Zip: {this.state.demographic.zip}</h2>
+          {/* <h2>Zip: {this.state.demographic.zip}</h2> */}
           <hr />
+          <h2>Location: </h2>
+          {/* <hr /> */}
         {/* <h1>"https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={this.state.demographic.zip}"</h1> */}
-          {/* <iframe 
+          <iframe 
             width="600"
             height="450" 
             style={{ "border":"0 0 0 0" }}
             loading="lazy" 
             allowFullScreen
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={this.state.demographic.zip}">
-          </iframe> */}
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q=${this.state.demographic.zip}`}>
+          </iframe>
+          <hr />
 
         </div>
       )
@@ -154,7 +158,7 @@ class DemographicPage extends Component {
       
       <div>
         
-        <h1>Demographic of Patient: { this.props.match.params.demographicId }</h1>
+        {/* <h1>Demographic of Patient: { this.props.match.params.demographicId }</h1> */}
         
         { this.renderDemographic() }
        
@@ -163,15 +167,15 @@ class DemographicPage extends Component {
 
         
 
-         <hr />
-         <iframe 
+         {/* <hr /> */}
+         {/* <iframe 
             width="600"
             height="450" 
             style={{ "border":"0 0 0 0" }}
             loading="lazy" 
             allowfullscreen
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ 60643 }}">
-          </iframe>
+          </iframe> */}
       </div>
     )
   }

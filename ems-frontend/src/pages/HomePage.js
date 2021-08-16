@@ -69,7 +69,7 @@ class HomePage extends Component {
    
           try {
             if (bodyweight && burnPercentage) {
-              let dropsPerSec = ((4 * (bodyweight / 2.2) * burnPercentage) / 5760)
+              let dropsPerSec = ((4 * (bodyweight / 2.2) * burnPercentage) / 5760).toFixed(1)
               this.setState({dripCalc: dropsPerSec})
               }
             
