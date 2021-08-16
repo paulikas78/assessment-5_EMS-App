@@ -128,7 +128,18 @@ class DemographicPage extends Component {
         
           <h2>Age: {this.state.demographic.age}</h2>
           <h2>Gender: {this.state.demographic.gender}</h2>
-     
+          <h2>Zip: {this.state.demographic.zip}</h2>
+          <hr />
+        {/* <h1>"https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={this.state.demographic.zip}"</h1> */}
+          {/* <iframe 
+            width="600"
+            height="450" 
+            style={{ "border":"0 0 0 0" }}
+            loading="lazy" 
+            allowFullScreen
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={this.state.demographic.zip}">
+          </iframe> */}
+
         </div>
       )
     }
@@ -143,8 +154,8 @@ class DemographicPage extends Component {
       
       <div>
         
-        <h1>Demographic of Patient { this.props.match.params.demographicId }</h1>
-        {/* { this.props.match.params.demographicId } */}
+        <h1>Demographic of Patient: { this.props.match.params.demographicId }</h1>
+        
         { this.renderDemographic() }
        
          <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.UPDATE)}>Update</button>

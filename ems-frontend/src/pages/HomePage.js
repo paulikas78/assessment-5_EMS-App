@@ -8,7 +8,10 @@ import AilmentSummary from '../components/AilmentSummary'
 class HomePage extends Component {
 
   state = {
-    ailments: []
+    ailments: [],
+    bodyweight: 0,
+    burnPercentage: 0,
+    dripCalc: 0
   }
 
   componentDidMount(){
@@ -34,7 +37,6 @@ class HomePage extends Component {
              if (data) {
                 let newAilments = [...this.state.ailments, data]
                 this.setState({ailments: newAilments})
-                console.log(this.state)
             }
           }
         }
@@ -63,6 +65,21 @@ class HomePage extends Component {
           }
         }
 
+        calculateDrip = (bodyweight, burnPercentage) => {
+   
+          try {
+            if (bodyweight && burnPercentage) {
+              let dropsPerSec = ((4 * (bodyweight / 2.2) * burnPercentage) / 5760)
+              this.setState({dripCalc: dropsPerSec})
+              }
+            
+              }
+        
+          catch {
+            console.log("error calculating drip")
+          }
+        }
+
 
   renderAilments() {
     let renderedAilments = this.state.ailments.map((ailment, index) => {
@@ -73,8 +90,6 @@ class HomePage extends Component {
            <AilmentSummary ailment={ailment} handleDelete={this.deleteAilment}/>
          </li>
        )
-
-
     })
 
     // return renderedAilments
@@ -85,7 +100,7 @@ class HomePage extends Component {
                 { renderedAilments }
 
               </ul>
-            <hr />
+            
             <input id="new-ailment" placeholder="Chief Complaint"/>
             <button onClick={this.addAilment}>Add New Chief Complaint</button>
         </div>
@@ -94,16 +109,59 @@ class HomePage extends Component {
     )
   }
 
- 
+    handleSubmit = (event) => {
+      event.preventDefault()
+      let dripCalculation = this.calculateDrip(this.state.bodyweight, this.state.burnPercentage)
+      console.log(dripCalculation)
+
+      return
+    }
+
+    handleChange = (event) => {
+      let fieldName = event.target.name
+      let fieldValue = event.target.value
+      
+      if (fieldName === "bodyweight") {
+        this.setState({bodyweight: fieldValue})
+      } else if (fieldName === "burn-percentage") {
+        this.setState({burnPercentage: fieldValue})
+      }
+
+      console.log(this.state)
+    }
+
+
+
   render() {
+    
     return (
       <div>
-          { this.renderAilments() }
-         
           <iframe src="https://covid-19.dataflowkit.com/assets/widget/covid-19.html" 
             frameborder="0" scrolling="no"
             width="250" height="250">
           </iframe>
+          <hr />
+          { this.renderAilments() }
+      <hr />
+
+      <h2>Fluid Resuscitation Calculator for Burn Patients:</h2>
+
+      <form onChange={this.handleChange}>
+
+        <input name="bodyweight" placeholder="Body Weight (lbs.)"/>
+        <input name="burn-percentage" placeholder="% Body Area Burned"/>
+        <button onClick={this.handleSubmit} type="submit" value="submit">Calculate Drip</button>
+        
+            
+      </form>
+      { this.state.dripCalc > 0 && 
+        
+        <h4>
+          {this.state.dripCalc} Drops Per Second in 10 Drops / mL Dripset
+        </h4>
+        
+      }
+
       </div>
     )
   }

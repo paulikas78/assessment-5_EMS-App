@@ -27,7 +27,7 @@ class AilmentPage extends Component {
             gender: inputGender.value,
             zip: inputZip.value
           }
-          console.log("new dem params: ", newDemographicParams)
+          // console.log("new dem params: ", newDemographicParams)
           let data = await EmsAPI.addDemographic(newDemographicParams)
           if (data) {
             this.getAilment()
