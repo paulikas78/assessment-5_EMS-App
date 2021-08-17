@@ -322,6 +322,7 @@ class HomePage extends Component {
       <hr />
 
       <h2>Fluid Resuscitation Calculator for Burn Patients:</h2>
+      <h6>According to Parkland Formula</h6>
 
       <form onChange={this.handleChange}>
 
@@ -348,12 +349,13 @@ class HomePage extends Component {
         <hr />
 
         <h2>Pediatric Dosage Calculator:</h2>
+        <h6>According to the Handtevy Pediatric Code</h6>
 
         <form onChange={this.handleChange}>
 
           <input name="weight" placeholder="Body Weight if < 66 lbs."/>
           <button onClick={this.handleSubmit} type="submit" value="submit">Calculate Dose</button>
-          <h6>Dosages According to the Handtevy Pediatric Code:</h6>
+          
           
               
         </form>
