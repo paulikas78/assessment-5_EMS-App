@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import EmsAPI from "../api/EmsAPI"
 import AilmentSummary from '../components/AilmentSummary'
-import Header from '../components/Header';
-
-// import logo from './logo.png'
-
 
 class HomePage extends Component {
 
@@ -23,7 +19,9 @@ class HomePage extends Component {
     d25Dose: 0,
     normalSalineDose: 0,
     lorazepamDose: 0,
-    midazolamDose: 0
+    midazolamDose: 0,
+    defib1Dose: 0,
+    defib2Dose: 0
   }
 
   componentDidMount(){
@@ -220,6 +218,34 @@ class HomePage extends Component {
           }
         }
 
+        defib1Dosage = (weight) => {
+          try {
+            if(weight) {
+              let defib1 = (2 * (weight / 2.2)).toFixed(0)
+              this.setState({defib1Dose: defib1})
+            }
+          }
+          catch {
+            console.log("error loading defib1 dose")
+          }
+        }
+
+        defib2Dosage = (weight) => {
+          try {
+            if(weight) {
+              let defib2 = (4 * (weight / 2.2)).toFixed(0)
+              this.setState({defib2Dose: defib2})
+            }
+          }
+          catch {
+            console.log("error loading defib2 dose")
+          }
+        }
+
+        
+
+
+
 
   renderAilments() {
     let renderedAilments = this.state.ailments.map((ailment, index) => {
@@ -236,7 +262,7 @@ class HomePage extends Component {
     // return renderedAilments
     return (
        <div>
-            <h2>Chief Complaints:</h2>
+            <h2>Chief Complaints of Calls:</h2>
               <ul className="simple-list">
                 { renderedAilments }
 
@@ -286,6 +312,12 @@ class HomePage extends Component {
       let doseMidazolam = this.midazolamDosage(this.state.weight)
       console.log("Midazolam Dosage: ", doseMidazolam)
 
+      let doseDefib1 = this.defib1Dosage(this.state.weight)
+      console.log("Defib1 Dosage: ", doseDefib1)
+
+      let doseDefib2 = this.defib2Dosage(this.state.weight)
+      console.log("Defib2 Dosage: ", doseDefib2)
+
       return
     }
 
@@ -309,10 +341,10 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+        <h1>EMS Call Tracker and Calculator</h1>
+        <hr />
           {/* <img src="https://i.ebayimg.com/images/g/GzQAAOSwWlxcd6qQ/s-l300.jpg" class="lazy-load" alt="..."> */}
-      <Header />
-    
-     
+      
           <iframe src="https://covid-19.dataflowkit.com/assets/widget/covid-19.html" 
             frameborder="0" scrolling="no"
             width="250" height="250">
@@ -322,7 +354,9 @@ class HomePage extends Component {
       <hr />
 
       <h2>Fluid Resuscitation Calculator for Burn Patients:</h2>
-      <h6>According to Parkland Formula</h6>
+      <h5>According to Parkland Formula</h5> 
+      <h6>For Burns Greater Than 10% of Total Body Surface Area in Pediatrics and Geriatrics</h6>
+      <h6>For Burns Greater Than 20% of Total Body Surface Area in Adults</h6>
 
       <form onChange={this.handleChange}>
 
@@ -349,11 +383,11 @@ class HomePage extends Component {
         <hr />
 
         <h2>Pediatric Dosage Calculator:</h2>
-        <h6>According to the Handtevy Pediatric Code</h6>
+        <h5>According to the Handtevy Pediatric Code and NREMT</h5>
 
         <form onChange={this.handleChange}>
 
-          <input name="weight" placeholder="Body Weight if < 66 lbs."/>
+          <input name="weight" placeholder="Body Weight if < 67 lbs."/>
           <button onClick={this.handleSubmit} type="submit" value="submit">Calculate Dose</button>
           
           
@@ -411,6 +445,18 @@ class HomePage extends Component {
           
           <h4>
           Midazolam IM / IN @ 5 mg / mL:   {this.state.midazolamDose} mL
+          </h4>
+        }
+         { this.state.defib1Dose > 0 && 
+          
+          <h4>
+          Initial Defib @ 2 J / kg:   {this.state.defib1Dose} J
+          </h4>
+        }
+         { this.state.defib2Dose > 0 && 
+          
+          <h4>
+          Subsequent Defib @ 4 J / kg:   {this.state.defib2Dose} J
           </h4>
         }
       </div>
