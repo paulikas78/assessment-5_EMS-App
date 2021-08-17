@@ -355,8 +355,8 @@ class HomePage extends Component {
 
       <h2>Fluid Resuscitation Calculator for Burn Patients:</h2>
       <h5>According to Parkland Formula</h5> 
-      <h6>For Burns Greater Than 10% of Total Body Surface Area in Pediatrics and Geriatrics</h6>
-      <h6>For Burns Greater Than 20% of Total Body Surface Area in Adults</h6>
+      <h6>For Burns Over 10% or more of Total Body Surface Area in Pediatrics and Geriatrics</h6>
+      <h6>For Burns Over 20% or more of Total Body Surface Area in Adults</h6>
 
       <form onChange={this.handleChange}>
 
