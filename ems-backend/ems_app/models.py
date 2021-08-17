@@ -17,5 +17,3 @@ class Demographic(models.Model):
     
     def __str__(self):
         return f"AGE: {self.age}, GENDER: {self.gender}, CHIEF COMPLAINT: {self.ailment}, ZIP CODE: {self.zip}"
-      
-      

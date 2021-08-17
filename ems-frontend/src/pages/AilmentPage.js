@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom"
 import EmsAPI from '../api/EmsAPI.js'
 
-
-
 class AilmentPage extends Component {
 
   state = {
@@ -27,7 +25,7 @@ class AilmentPage extends Component {
             gender: inputGender.value,
             zip: inputZip.value
           }
-          // console.log("new dem params: ", newDemographicParams)
+          
           let data = await EmsAPI.addDemographic(newDemographicParams)
           if (data) {
             this.getAilment()
@@ -102,6 +100,10 @@ class AilmentPage extends Component {
       <div>
         <h1>Chief Complaint: </h1>
         <h4>{ this.renderAilment() }</h4>
+
+        
+
+
       </div>
     )
   }

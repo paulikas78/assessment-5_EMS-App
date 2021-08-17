@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import EmsAPI from "../api/EmsAPI"
 import AilmentSummary from '../components/AilmentSummary'
+import Header from '../components/Header';
+
 // import logo from './logo.png'
 
 
@@ -11,7 +13,16 @@ class HomePage extends Component {
     ailments: [],
     bodyweight: 0,
     burnPercentage: 0,
-    dripCalc: 0
+    dripCalc: 0,
+    epiIMDose: 0,
+    epiIVDose: 0,
+    amioDose: 0,
+    bicarbDose: 0,
+    d10Dose: 0,
+    d25Dose: 0,
+    normalSalineDose: 0,
+    lorazepamDose: 0,
+    midazolamDose: 0
   }
 
   componentDidMount(){
@@ -65,6 +76,9 @@ class HomePage extends Component {
           }
         }
 
+
+// FLUID & DOSAGE CALCULATORS
+
         calculateDrip = (bodyweight, burnPercentage) => {
    
           try {
@@ -80,6 +94,116 @@ class HomePage extends Component {
           }
         }
 
+        epiIMDosage = (weight) => {
+          try {
+            if(weight) {
+              let epiIM = (0.01 * (weight / 2.2)).toFixed(2)
+              this.setState({epiIMDose: epiIM})
+            }
+          }
+          catch {
+            console.log("error loading Epi IM dose")
+          }
+        }
+
+
+        epiIVDosage = (weight) => {
+          try {
+            if(weight) {
+              let epiIV = (0.1 * (weight / 2.2)).toFixed(1)
+              this.setState({epiIVDose: epiIV})
+            }
+          }
+          catch {
+            console.log("error loading Epi IV dose")
+          }
+        }
+
+        amioDosage = (weight) => {
+          try {
+            if(weight) {
+              let amio = (0.1 * (weight / 2.2)).toFixed(1)
+              this.setState({amioDose: amio})
+            }
+          }
+          catch {
+            console.log("error loading amiodarone dose")
+          }
+        }
+
+        bicarbDosage = (weight) => {
+          try {
+            if(weight) {
+              let bicarb = (weight / 2.2).toFixed(0)
+              this.setState({bicarbDose: bicarb})
+            }
+          }
+          catch {
+            console.log("error loading bicarb dose")
+          }
+        }
+
+        d10Dosage = (weight) => {
+          try {
+            if(weight) {
+              
+              let d10 = 5 * ((weight / 2.2)).toFixed(0)
+              this.setState({d10Dose: d10})
+            }
+          }
+          catch {
+            console.log("error loading D10 dose")
+          }
+        }
+
+        d25Dosage = (weight) => {
+          try {
+            if(weight) {
+              let d25 = (2 * (weight / 2.2)).toFixed(0)
+              this.setState({d25Dose: d25})
+            }
+          }
+          catch {
+            console.log("error loading D25 dose")
+          }
+        }
+
+        normalSalineDosage = (weight) => {
+          try {
+            if(weight) {
+              let normalSaline = (20 * (weight / 2.2)).toFixed(0)
+              this.setState({normalSalineDose: normalSaline})
+            }
+          }
+          catch {
+            console.log("error loading normal saline dose")
+          }
+        }
+
+        lorazepamDosage = (weight) => {
+          try {
+            if(weight) {
+              let lorazepam = (0.05 * (weight / 2.2)).toFixed(1)
+              this.setState({lorazepamDose: lorazepam})
+            }
+          }
+          catch {
+            console.log("error loading lorazepam dose")
+          }
+        }
+
+        midazolamDosage = (weight) => {
+          try {
+            if(weight) {
+              let midazolam = (0.04 * (weight / 2.2)).toFixed(1)
+              this.setState({midazolamDose: midazolam})
+            }
+          }
+          catch {
+            console.log("error loading midazolam dose")
+          }
+        }
+
 
   renderAilments() {
     let renderedAilments = this.state.ailments.map((ailment, index) => {
@@ -91,6 +215,7 @@ class HomePage extends Component {
          </li>
        )
     })
+
 
     // return renderedAilments
     return (
@@ -111,8 +236,36 @@ class HomePage extends Component {
 
     handleSubmit = (event) => {
       event.preventDefault()
+
       let dripCalculation = this.calculateDrip(this.state.bodyweight, this.state.burnPercentage)
-      console.log(dripCalculation)
+      console.log("dripCalulation: ", dripCalculation) 
+
+      let doseEpiIM = this.epiIMDosage(this.state.weight)
+      console.log("Epi IM Dosage: ", doseEpiIM)
+
+      let doseEpiIV = this.epiIVDosage(this.state.weight)
+      console.log("Epi IV Dosage: ", doseEpiIV)
+
+      let doseAmio = this.amioDosage(this.state.weight)
+      console.log("Amiodarone Dosage: ", doseAmio)
+
+      let doseBicarb = this.bicarbDosage(this.state.weight)
+      console.log("Bicarb Dosage: ", doseBicarb)
+
+      let doseD10 = this.d10Dosage(this.state.weight)
+      console.log("D10 Dosage: ", doseD10)
+
+      let doseD25 = this.d25Dosage(this.state.weight)
+      console.log("D25 Dosage: ", doseD25)
+
+      let doseNormalSaline = this.normalSalineDosage(this.state.weight)
+      console.log("Normal Saline Dosage: ", doseNormalSaline)
+
+      let doseLorazepam = this.lorazepamDosage(this.state.weight)
+      console.log("Lorazepam Dosage: ", doseLorazepam)
+
+      let doseMidazolam = this.midazolamDosage(this.state.weight)
+      console.log("Midazolam Dosage: ", doseMidazolam)
 
       return
     }
@@ -125,17 +278,20 @@ class HomePage extends Component {
         this.setState({bodyweight: fieldValue})
       } else if (fieldName === "burn-percentage") {
         this.setState({burnPercentage: fieldValue})
-      }
 
+      } else if (fieldName === "weight") {
+        this.setState({weight: fieldValue})
+      }
+      
       console.log(this.state)
     }
 
 
-
   render() {
-    
     return (
       <div>
+      <Header />
+     
           <iframe src="https://covid-19.dataflowkit.com/assets/widget/covid-19.html" 
             frameborder="0" scrolling="no"
             width="250" height="250">
@@ -152,16 +308,80 @@ class HomePage extends Component {
         <input name="burn-percentage" placeholder="% Body Area Burned"/>
         <button onClick={this.handleSubmit} type="submit" value="submit">Calculate Drip</button>
         
-            
       </form>
-      { this.state.dripCalc > 0 && 
-        
-        <h4>
-          {this.state.dripCalc} Drops Per Second in 10 Drops / mL Dripset
-        </h4>
-        
-      }
+          { this.state.dripCalc > 0 && 
+            
+            <h4>
+              {this.state.dripCalc} Drops Per Second in 10 Drops / mL Dripset
+            </h4>
+          }
 
+        <hr />
+
+        <h2>Pediatric Dosage Calculator:</h2>
+
+        <form onChange={this.handleChange}>
+
+          <input name="weight" placeholder="Body Weight if < 66 lbs."/>
+          <button onClick={this.handleSubmit} type="submit" value="submit">Calculate Dose</button>
+          <h6>Dosages According to the Handtevy Pediatric Code:</h6>
+          
+              
+        </form>
+        { this.state.epiIMDose > 0 && 
+          
+          <h4>
+            Epi IM - 1:1000 @ 1 mg / mL:   {this.state.epiIMDose} mL
+          </h4>
+        }
+        { this.state.epiIVDose > 0 && 
+          
+          <h4>
+            Epi IV - 1:10,000 @ 0.1 mg / mL:   {this.state.epiIVDose} mL
+          </h4>
+        }
+        { this.state.amioDose > 0 && 
+          
+          <h4>
+            Amiodarone @ 50 mg / mL:   {this.state.amioDose} mL
+          </h4>
+        }
+        { this.state.bicarbDose > 0 && 
+          
+          <h4>
+            Bicarb 8.4% @ 1 mEq / mL:   {this.state.bicarbDose} mL
+          </h4>
+        }
+        { this.state.d10Dose > 0 && 
+          
+          <h4>
+            D10W @ 0.1 g / mL:   {this.state.d10Dose} mL
+          </h4>
+        }
+        { this.state.d25Dose > 0 && 
+          
+          <h4>
+            D25W @ 0.25g / mL:   {this.state.d25Dose} mL
+          </h4>
+        }
+        { this.state.normalSalineDose > 0 && 
+          
+          <h4>
+            Normal Saline @ 0.9%:   {this.state.normalSalineDose} mL
+          </h4>
+        }
+        { this.state.lorazepamDose > 0 && 
+          
+          <h4>
+            Lorazepam @ 2 mg / mL:   {this.state.lorazepamDose} mL
+          </h4>
+        }
+        { this.state.midazolamDose > 0 && 
+          
+          <h4>
+          Midazolam IM / IN @ 5 mg / mL:   {this.state.midazolamDose} mL
+          </h4>
+        }
       </div>
     )
   }
@@ -169,4 +389,3 @@ class HomePage extends Component {
 
 
 export default HomePage
-

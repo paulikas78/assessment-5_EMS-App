@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Table } from 'react-bootstrap'
 import { Link } from "react-router-dom"
 
 class AilmentSummary extends Component {
@@ -20,4 +19,3 @@ class AilmentSummary extends Component {
 }
 
 export default AilmentSummary; 
-

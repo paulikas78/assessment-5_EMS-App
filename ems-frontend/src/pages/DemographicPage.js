@@ -129,11 +129,10 @@ class DemographicPage extends Component {
         
           <h2>Age: {this.state.demographic.age}</h2>
           <h2>Gender: {this.state.demographic.gender}</h2>
-          {/* <h2>Zip: {this.state.demographic.zip}</h2> */}
+        
           <hr />
+
           <h2>Location: </h2>
-          {/* <hr /> */}
-        {/* <h1>"https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={this.state.demographic.zip}"</h1> */}
           <iframe 
             width="600"
             height="450" 
@@ -143,106 +142,24 @@ class DemographicPage extends Component {
             src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q=${this.state.demographic.zip}`}>
           </iframe>
           <hr />
-
         </div>
       )
     }
 
-
-
   render() {
     
-   
-
     return (
       
       <div>
-        
-        {/* <h1>Demographic of Patient: { this.props.match.params.demographicId }</h1> */}
         
         { this.renderDemographic() }
        
          <button onClick={() => this.changeMode(DemographicPage.MODE_TYPE.UPDATE)}>Update</button>
          <button onClick={this.deleteDemographic}>Delete</button>
 
-        
-
-         {/* <hr /> */}
-         {/* <iframe 
-            width="600"
-            height="450" 
-            style={{ "border":"0 0 0 0" }}
-            loading="lazy" 
-            allowfullscreen
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDRWop4QSkZ_rQLqaYOtwGx9zvYlZ_EuMY&q={{ 60643 }}">
-          </iframe> */}
       </div>
     )
   }
 }
 
 export default DemographicPage;
-
-
-
-
-
-
-
-// import { Component } from "react";
-// import toDoAPI from '../api/toDoAPI'
-
-// class TaskPage extends Component {
-
-//   state = {
-//     task: null
-//   }
-
-//    // helper methods
-//    async getTask() {
-//     try {
-//       let taskId = this.props.match.params.taskId
-//       let taskData = await toDoAPI.getTaskById(taskId)
-//       if (taskData) {
-//         this.setState({ task: taskData })
-//       }
-//     }
-//     catch (error) {
-//       console.log(error)
-//     }
-//   }
-
-//     // life cycle
-//     componentDidMount() {
-//       this.getTask()
-//     }
-
-//     // render
-//     renderTask() {
-//       if (!this.state.task) {
-//         return <p>No task found!</p>
-//       }
-  
-//       return (
-//         <div>
-//           <h1>List: {this.state.task.list}</h1>
-//           <h2>Name: {this.state.task.name}</h2>
-//           <h3>Completed: {this.state.task.completed ? "Yes" : "No"}</h3>
-//           <h3>Due: {this.state.task.due_date}</h3>
-//         </div>
-//       )
-//     }
-
-
-
-//   render() {
-//     return (
-//       <div>
-//         <h1>Task Page: { this.props.match.params.taskId }</h1>
-//         { this.renderTask() }
-//       </div>
-//     )
-//   }
-// }
-
-// export default TaskPage;
