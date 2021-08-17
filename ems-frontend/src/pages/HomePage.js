@@ -14,6 +14,7 @@ class HomePage extends Component {
     bodyweight: 0,
     burnPercentage: 0,
     dripCalc: 0,
+    mlPerMin: 0,
     epiIMDose: 0,
     epiIVDose: 0,
     amioDose: 0,
@@ -93,6 +94,21 @@ class HomePage extends Component {
             console.log("error calculating drip")
           }
         }
+
+        calculateMlPerMin = (bodyweight, burnPercentage) => {
+          try {
+            if (bodyweight && burnPercentage) {
+              let mlPerMinute = ((4 * (bodyweight / 2.2) * burnPercentage) / 960).toFixed(1)
+              this.setState({mlPerMin: mlPerMinute})
+              }
+            
+              }
+        
+          catch {
+            console.log("error calculating mL per minute")
+          }
+        }
+
 
         epiIMDosage = (weight) => {
           try {
@@ -238,7 +254,10 @@ class HomePage extends Component {
       event.preventDefault()
 
       let dripCalculation = this.calculateDrip(this.state.bodyweight, this.state.burnPercentage)
-      console.log("dripCalulation: ", dripCalculation) 
+      console.log("dripCalulation: ", dripCalculation)
+      
+      let mlPerMinCalculation = this.calculateMlPerMin(this.state.bodyweight, this.state.burnPercentage)
+      console.log("mL Per Minute Calculation: ", mlPerMinCalculation) 
 
       let doseEpiIM = this.epiIMDosage(this.state.weight)
       console.log("Epi IM Dosage: ", doseEpiIM)
@@ -290,7 +309,9 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+          {/* <img src="https://i.ebayimg.com/images/g/GzQAAOSwWlxcd6qQ/s-l300.jpg" class="lazy-load" alt="..."> */}
       <Header />
+    
      
           <iframe src="https://covid-19.dataflowkit.com/assets/widget/covid-19.html" 
             frameborder="0" scrolling="no"
@@ -315,6 +336,14 @@ class HomePage extends Component {
               {this.state.dripCalc} Drops Per Second in 10 Drops / mL Dripset
             </h4>
           }
+          { this.state.mlPerMin > 0 && 
+            
+            <h4>
+              Infusion Rate: {this.state.mlPerMin} mL / minute
+            </h4>
+          }
+
+          <iframe src="http://ipadstopwatch.com/embed.html" frameborder="0" scrolling="no" width="391" height="140"></iframe>
 
         <hr />
 
