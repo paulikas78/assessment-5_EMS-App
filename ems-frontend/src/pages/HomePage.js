@@ -15,6 +15,7 @@ class HomePage extends Component {
     epiIVDose: 0,
     amioDose: 0,
     bicarbDose: 0,
+    benadrylDose: 0,
     d10Dose: 0,
     d25Dose: 0,
     normalSalineDose: 0,
@@ -154,6 +155,18 @@ class HomePage extends Component {
           }
           catch {
             console.log("error loading bicarb dose")
+          }
+        }
+
+        benadrylDosage = (weight) => {
+          try {
+            if(weight) {
+              let benadryl = ((weight / 2.2) / 50).toFixed(2)
+              this.setState({benadrylDose: benadryl})
+            }
+          }
+          catch {
+            console.log("error loading benadryl dose")
           }
         }
 
@@ -297,6 +310,9 @@ class HomePage extends Component {
       let doseBicarb = this.bicarbDosage(this.state.weight)
       console.log("Bicarb Dosage: ", doseBicarb)
 
+      let doseBenadryl = this.benadrylDosage(this.state.weight)
+      console.log("Benadryl Dosage: ", doseBenadryl)
+
       let doseD10 = this.d10Dosage(this.state.weight)
       console.log("D10 Dosage: ", doseD10)
 
@@ -417,6 +433,12 @@ class HomePage extends Component {
             Bicarb 8.4% @ 1 mEq / mL:   {this.state.bicarbDose} mL
           </h4>
         }
+         { this.state.benadrylDose > 0 && 
+          
+          <h4>
+            Benadryl @ 50 mg / mL:   {this.state.benadrylDose} mL
+          </h4>
+        }
         { this.state.d10Dose > 0 && 
           
           <h4>
@@ -447,9 +469,16 @@ class HomePage extends Component {
           Midazolam IM / IN @ 5 mg / mL:   {this.state.midazolamDose} mL
           </h4>
         }
-         { this.state.defib1Dose > 0 && 
+        {
+          
+          
+        }
+         { 
+         this.state.defib1Dose > 0 && 
           
           <h4>
+          <hr />
+          <h2>Defibrilation Settings:</h2>
           Initial Defib @ 2 J / kg:   {this.state.defib1Dose} J
           </h4>
         }
