@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:8000/"
+// const BASE_URL = "http://localhost:8000/"
+const BASE_URL = "https://personal-project-ems-backend.herokuapp.com/"
 
 
 const fetchAilmentByID = async (ailmentID) => {
